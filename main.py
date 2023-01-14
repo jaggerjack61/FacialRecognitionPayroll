@@ -8,7 +8,7 @@ UNKNOWN_FACES_DIR = 'unknown_faces'
 TOLERANCE = 0.6
 FRAME_THICKNESS = 3
 FONT_THICKNESS = 2
-MODEL = 'cnn'  # default: 'hog', other one can be 'cnn' - CUDA accelerated (if available) deep-learning pretrained model
+MODEL = 'hog'  # default: 'hog', other one can be 'cnn' - CUDA accelerated (if available) deep-learning pretrained model
 
 
 # Returns (R, G, B) from name
@@ -99,5 +99,5 @@ for filename in os.listdir(UNKNOWN_FACES_DIR):
 
     # Show image
     cv2.imshow(filename, image)
-    cv2.waitKey(0)
-    cv2.destroyWindow(filename)
+    cv2.waitKey(10000)
+    #cv2.destroyWindow(filename)
