@@ -1,13 +1,11 @@
 import sqlite3
 import os
 import views.login as login
+
 import logic.Authentication as auth
 
-
-
-if(os.path.exists('payroll.db')):
+if (os.path.exists('payroll.db')):
     login.main()
-    
 
 con = sqlite3.connect('payroll.db')
 
@@ -53,8 +51,6 @@ cur.execute("""CREATE TABLE users (
 
 cur.execute("""INSERT INTO users VALUES ('admin','12345',0)""")
 
-
-                    
 con.commit()
 
 cur.execute("SELECT * FROM users")

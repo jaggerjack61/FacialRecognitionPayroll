@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'login.ui'
+# Form implementation generated from reading ui file 'app.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.7
 #
@@ -9,15 +9,13 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-import logic.Authentication as auth
-import views.home as home
 
 
-class Ui_MainWindow(object):
-    def setupUi(self, MainWindow):
-        MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(522, 502)
-        self.centralwidget = QtWidgets.QWidget(MainWindow)
+class Ui_LoginWindow(object):
+    def setupUi(self, LoginWindow):
+        LoginWindow.setObjectName("LoginWindow")
+        LoginWindow.resize(522, 502)
+        self.centralwidget = QtWidgets.QWidget(LoginWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.emailText = QtWidgets.QLineEdit(self.centralwidget)
         self.emailText.setGeometry(QtCore.QRect(10, 100, 501, 25))
@@ -28,7 +26,6 @@ class Ui_MainWindow(object):
         self.loginButton = QtWidgets.QPushButton(self.centralwidget)
         self.loginButton.setGeometry(QtCore.QRect(170, 320, 171, 31))
         self.loginButton.setObjectName("loginButton")
-        self.loginButton.clicked.connect(self.tryLogin)
         self.forgotButton = QtWidgets.QPushButton(self.centralwidget)
         self.forgotButton.setGeometry(QtCore.QRect(170, 380, 171, 31))
         self.forgotButton.setObjectName("forgotButton")
@@ -44,47 +41,32 @@ class Ui_MainWindow(object):
         font.setPointSize(16)
         self.label_2.setFont(font)
         self.label_2.setObjectName("label_2")
-        MainWindow.setCentralWidget(self.centralwidget)
-        self.menubar = QtWidgets.QMenuBar(MainWindow)
+        LoginWindow.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(LoginWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 522, 22))
         self.menubar.setObjectName("menubar")
-        MainWindow.setMenuBar(self.menubar)
-        self.statusbar = QtWidgets.QStatusBar(MainWindow)
+        LoginWindow.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(LoginWindow)
         self.statusbar.setObjectName("statusbar")
-        MainWindow.setStatusBar(self.statusbar)
+        LoginWindow.setStatusBar(self.statusbar)
 
-        self.retranslateUi(MainWindow)
-        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        self.retranslateUi(LoginWindow)
+        QtCore.QMetaObject.connectSlotsByName(LoginWindow)
 
-    def tryLogin(self):
-        key = auth.Authentication(self.emailText.text(), self.passwordText.text())
-        if key.login():
-            self.window = QtWidgets.QMainWindow()
-            self.hm = home.Ui_MainWindow()
-            self.hm.setupUi(self.window)
-            self.window.show()
-
-
-
-    def retranslateUi(self, MainWindow):
+    def retranslateUi(self, LoginWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "Login"))
-        self.loginButton.setText(_translate("MainWindow", "Login"))
-        self.forgotButton.setText(_translate("MainWindow", "Forgot Password?"))
-        self.label.setText(_translate("MainWindow", "Email"))
-        self.label_2.setText(_translate("MainWindow", "Password"))
+        LoginWindow.setWindowTitle(_translate("LoginWindow", "Login"))
+        self.loginButton.setText(_translate("LoginWindow", "Login"))
+        self.forgotButton.setText(_translate("LoginWindow", "Forgot Password?"))
+        self.label.setText(_translate("LoginWindow", "Email"))
+        self.label_2.setText(_translate("LoginWindow", "Password"))
 
-def main():
+
+if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
+    LoginWindow = QtWidgets.QMainWindow()
+    ui = Ui_LoginWindow()
+    ui.setupUi(LoginWindow)
+    LoginWindow.show()
     sys.exit(app.exec_())
-
-    
-if __name__ == "__main__":
-    main()
-    
-
