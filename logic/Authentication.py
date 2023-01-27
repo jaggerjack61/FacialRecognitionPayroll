@@ -1,6 +1,5 @@
 import sqlite3
 import os
-import views.home as home
 class Authentication:
 
     def __init__(self, username, password):

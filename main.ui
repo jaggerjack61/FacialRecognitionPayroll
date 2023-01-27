@@ -352,7 +352,7 @@
      <attribute name="title">
       <string>Create Shift</string>
      </attribute>
-     <widget class="QLineEdit" name="lineEdit">
+     <widget class="QLineEdit" name="shiftName">
       <property name="geometry">
        <rect>
         <x>150</x>
@@ -362,7 +362,7 @@
        </rect>
       </property>
      </widget>
-     <widget class="QTimeEdit" name="timeEdit">
+     <widget class="QTimeEdit" name="shiftStart">
       <property name="geometry">
        <rect>
         <x>150</x>
@@ -372,7 +372,7 @@
        </rect>
       </property>
      </widget>
-     <widget class="QComboBox" name="comboBox">
+     <widget class="QComboBox" name="shiftType">
       <property name="geometry">
        <rect>
         <x>150</x>
@@ -392,7 +392,7 @@
        </property>
       </item>
      </widget>
-     <widget class="QTimeEdit" name="timeEdit_2">
+     <widget class="QTimeEdit" name="shiftEnd">
       <property name="geometry">
        <rect>
         <x>560</x>
@@ -402,7 +402,7 @@
        </rect>
       </property>
      </widget>
-     <widget class="QPushButton" name="createShift">
+     <widget class="QPushButton" name="createShiftButton">
       <property name="geometry">
        <rect>
         <x>270</x>
@@ -507,7 +507,7 @@
      <attribute name="title">
       <string>Manage Admin</string>
      </attribute>
-     <widget class="QLineEdit" name="lineEdit_2">
+     <widget class="QLineEdit" name="oldPassword">
       <property name="geometry">
        <rect>
         <x>210</x>
@@ -517,7 +517,7 @@
        </rect>
       </property>
      </widget>
-     <widget class="QLineEdit" name="lineEdit_3">
+     <widget class="QLineEdit" name="newPassword">
       <property name="geometry">
        <rect>
         <x>210</x>
@@ -527,7 +527,7 @@
        </rect>
       </property>
      </widget>
-     <widget class="QLineEdit" name="lineEdit_4">
+     <widget class="QLineEdit" name="confirmPassword">
       <property name="geometry">
        <rect>
         <x>210</x>
