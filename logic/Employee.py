@@ -1,4 +1,5 @@
 import sqlite3
+import os
 
 
 class Employee:
@@ -37,7 +38,10 @@ class Employee:
                 "SELECT * FROM employees")
             emps = self.cur.fetchall()
             print(emps)
-            return True
+            path = 'data/employees/'+str(employee['employeeNumber'])
+            os.mkdir(path)
+
+            return path
 
     def get(self):
         self.cur.execute(

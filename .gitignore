@@ -129,5 +129,6 @@ dmypy.json
 .pyre/
 
 known_faces/*
+data/employees/*
 unknown_faces/*
 payroll.db

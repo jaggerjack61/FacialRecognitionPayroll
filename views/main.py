@@ -10,13 +10,13 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 import logic.Employee as employee
+from logic import picget as pic
 
 
 class Ui_MainWindow(object):
     def __init__(self):
         self.emp = employee.Employee()
         self.employees = self.emp.get()
-
 
     def setupUi(self, MainWindow):
 
@@ -268,17 +268,23 @@ class Ui_MainWindow(object):
                         'overtime': self.salaryOvertime.text()
                         }
 
-        if self.emp.add(employeeData):
+        response = self.emp.add(employeeData)
+        if response:
+            pic.saveImage(response)
             print('employee added')
             self.getEmployees()
+
         else:
             print('failed to add employee')
+
+
 
     def getEmployees(self):
         i = 0
         for emp in self.employees:
-            self.employeeView.insertItem(i, 'Name:'+emp[1] + ' '+emp[2]+', DOB:'+emp[3] + ', ID No:' + emp[4]+', Employee No:'+str(emp[0]) +
-                                         ',Currency:'+ emp[7]+', Basic:'+str(emp[5])+', Overtime:'+str(emp[6]))
+            self.employeeView.insertItem(i, 'Name:' + emp[1] + ' ' + emp[2] + ', DOB:' + emp[3] + ', ID No:' + emp[
+                4] + ', Employee No:' + str(emp[0]) +
+                                         ',Currency:' + emp[7] + ', Basic:' + str(emp[5]) + ', Overtime:' + str(emp[6]))
             i = i + 1
 
     def assignShift(self):
