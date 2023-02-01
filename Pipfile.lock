@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "805a8ca87a2800c6003d520554d5e23fdbd5a3ef08f450df7a3e58ce46711c44"
+            "sha256": "7e025e724616f432d3c4be345af71ccf09f9905c80975f3c20695b49a3b0f419"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -75,21 +75,21 @@
                 "sha256:ef85cf1f693c88c1fd229ccd1055570cb41cdf4875873b7728b6301f12cd05bf",
                 "sha256:f1b739841821968798947d3afcefd386fa56da0caf97722a5de53e07c4ccedc7"
             ],
-            "markers": "python_version >= '3.7'",
+            "markers": "python_version >= '3.8'",
             "version": "==1.24.1"
         },
         "opencv-python": {
             "hashes": [
-                "sha256:0630dfa57dbadd63f62eae6758c743ab7c18358940f34e8b9ee666c00d2e74fb",
-                "sha256:0c2d5ebd08420079d6ebdec7a247f0284d403edd87647e9fbcc474c5adcb310b",
-                "sha256:27cc4a3a4dc2d73c76374c636985ce45a8e40e79d015fb0e69677ff4547edd9c",
-                "sha256:3484618b7cda6b94939f475342ff100455b863d2bb7a81ac8d2b1965c4e983b6",
-                "sha256:447c5d9172713e026d4a742c5d3c167913dff133949ffc62fec5b6d1cb081b0b",
-                "sha256:784acb4c6c1880e0b8fb124f2b79e10838f1c244b0220f812d2852c91bc80ae9",
-                "sha256:9aecb4544d2e863f2fb9acffc47005f9c9733a307cdbca80babbef027c04e207"
+                "sha256:3a00e12546e5578f6bb7ed408c37fcfea533d74e9691cfaf40926f6b43295577",
+                "sha256:6d1c993811f92ddd7919314ada7b9be1f23db1c73f1384915c834dee8549c0b9",
+                "sha256:7a08f9d1f9dd52de63a7bb448ab7d6d4a1a85b767c2358501d968d1e4d95098d",
+                "sha256:86f4b60b9536948f16d2170ba3a9b22d3955a957dc61a9bc56e53692c6db2c7e",
+                "sha256:9829e6efedde1d1b8419c5bd4d62d289ecbf44ae35b843c6da9e3cbcba1a9a8a",
+                "sha256:abc6adfa8694f71a4caffa922b279bd9d96954a37eee40b147f613c64310b411",
+                "sha256:e770e9f653a0e5e72b973adb8213fae2df4642730ba1faf31e73a54287a4d5d4"
             ],
             "index": "pypi",
-            "version": "==3.4.18.65"
+            "version": "==4.7.0.68"
         },
         "pillow": {
             "hashes": [
