@@ -1,6 +1,7 @@
 import face_recognition
 import os
 import cv2
+import sqlite3
 
 KNOWN_FACES_DIR = 'data/employees'
 UNKNOWN_FACES_DIR = 'data/temp'
@@ -104,6 +105,18 @@ def matchImage():
 
         cv2.waitKey(10000)
         # cv2.destroyWindow(filename)
+
+def saveTime():
+    con = sqlite3.connect('payroll.db')
+
+    cur = con.cursor()
+    cur.execute("""INSERT INTO logged_times VALUES ('admin','12345',0)""")
+    con.commit()
+
+    cur.execute("SELECT * FROM logged_times")
+
+    print(cur.fetchall())
+    con.close()
 
 
 saveImage()

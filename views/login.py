@@ -10,7 +10,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 import logic.Authentication as auth
-import views.main as home
+import views.new as home
 
 
 class Ui_MainWindow(object):
