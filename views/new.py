@@ -18,6 +18,7 @@ class Ui_MainWindow(object):
     def __init__(self):
         self.emp = employee.Employee()
         self.employees = self.emp.get()
+        self.assignedShifts = self.emp.getAssignedShifts()
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -169,6 +170,7 @@ class Ui_MainWindow(object):
         self.createShiftButton = QtWidgets.QPushButton(self.tab_4)
         self.createShiftButton.setObjectName("createShiftButton")
         self.gridLayout_4.addWidget(self.createShiftButton, 3, 2, 1, 2)
+        self.createShiftButton.clicked.connect(self.addShift)
         self.tabWidget.addTab(self.tab_4, "")
         self.tab_5 = QtWidgets.QWidget()
         self.tab_5.setObjectName("tab_5")
@@ -217,6 +219,7 @@ class Ui_MainWindow(object):
         self.logoutButton = QtWidgets.QPushButton(self.centralwidget)
         self.logoutButton.setObjectName("logoutButton")
         self.verticalLayout.addWidget(self.logoutButton)
+        self.logoutButton.clicked.connect(self.logout)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 963, 22))
@@ -230,6 +233,8 @@ class Ui_MainWindow(object):
         self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
         self.getEmployees()
+        self.getShifts()
+        print(self.assignedShifts)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -271,7 +276,6 @@ class Ui_MainWindow(object):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_6), _translate("MainWindow", "Manage Admin"))
         self.logoutButton.setText(_translate("MainWindow", "Logout"))
 
-
     def addEmployee(self):
         employeeData = {'firstname': self.firstname.text(),
                         'lastname': self.lastname.text(),
@@ -287,6 +291,7 @@ class Ui_MainWindow(object):
         if response:
             pic.saveImage(response)
             print('employee added')
+            self.employees = self.emp.get()
             self.getEmployees()
 
         else:
@@ -302,11 +307,34 @@ class Ui_MainWindow(object):
 
     def assignShift(self):
         row = self.employeeView.currentRow()
-        print(self.employees[row])
+        employeeNumber = self.employees[row][0]
+        shifts = self.emp.getShifts()
+        shiftName = shifts[self.shifts.currentIndex()][0]
+        self.emp.assignShift(shiftName, employeeNumber)
+
+    def logout(self):
+        exit()
+
+    def getShifts(self):
+        shifts = self.emp.getShifts()
+        self.shifts.clear()
+        for shift in shifts:
+            self.shifts.addItem(shift[0] + ' ' + shift[1] + '-' + shift[2])
+
+    def addShift(self):
+        shiftData = {'name': self.shiftName.text(),
+                     'start': self.shiftStart.text(),
+                     'end': self.shiftEnd.text(),
+                     'is_overtime': self.shiftType.currentIndex()
+                     }
+        print(shiftData)
+        self.emp.addShift(shiftData)
+        self.getShifts()
 
 
 if __name__ == "__main__":
     import sys
+
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
