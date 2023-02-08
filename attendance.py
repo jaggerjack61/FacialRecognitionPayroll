@@ -101,10 +101,8 @@ def matchImage():
             if True in results:  # If at least one is true, get a name of first of found labels
                 match = known_names[results.index(True)]
                 print(f' - {match} from {results}')
-                print(match)
-
-        cv2.waitKey(10000)
-        # cv2.destroyWindow(filename)
+                return match
+    return False
 
 def saveTime():
     con = sqlite3.connect('payroll.db')

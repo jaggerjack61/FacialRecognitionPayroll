@@ -11,6 +11,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import logic.Authentication as auth
 import views.new as home
+from views import logtimes as lt
 
 
 class Ui_MainWindow(object):
@@ -29,9 +30,10 @@ class Ui_MainWindow(object):
         self.loginButton.setGeometry(QtCore.QRect(170, 320, 171, 31))
         self.loginButton.setObjectName("loginButton")
         self.loginButton.clicked.connect(self.tryLogin)
-        self.forgotButton = QtWidgets.QPushButton(self.centralwidget)
-        self.forgotButton.setGeometry(QtCore.QRect(170, 380, 171, 31))
-        self.forgotButton.setObjectName("forgotButton")
+        self.clockButton = QtWidgets.QPushButton(self.centralwidget)
+        self.clockButton.setGeometry(QtCore.QRect(170, 380, 171, 31))
+        self.clockButton.setObjectName("Clock In/Out")
+        self.clockButton.clicked.connect(self.logtimes)
         self.label = QtWidgets.QLabel(self.centralwidget)
         self.label.setGeometry(QtCore.QRect(10, 70, 91, 17))
         font = QtGui.QFont()
@@ -63,6 +65,13 @@ class Ui_MainWindow(object):
             self.hm = home.Ui_MainWindow()
             self.hm.setupUi(self.window)
             self.window.show()
+    def logtimes(self):
+        self.window = QtWidgets.QMainWindow()
+        self.lt = lt.Ui_MainWindow()
+        self.lt.setupUi(self.window)
+        self.window.show()
+
+
 
 
 
@@ -70,7 +79,7 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Login"))
         self.loginButton.setText(_translate("MainWindow", "Login"))
-        self.forgotButton.setText(_translate("MainWindow", "Forgot Password?"))
+        self.clockButton.setText(_translate("MainWindow", "Clock In/Out"))
         self.label.setText(_translate("MainWindow", "Email"))
         self.label_2.setText(_translate("MainWindow", "Password"))
 

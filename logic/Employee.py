@@ -1,5 +1,6 @@
 import sqlite3
 import os
+from datetime import date, time
 
 
 class Employee:
@@ -90,3 +91,9 @@ class Employee:
                                                 """)
         self.con.commit()
         print(self.getAssignedShifts())
+
+    def clockIn(self,employeeNumber):
+        print('hello')
+
+    def clockOut(self,employeeNumber):
+        print('hello')

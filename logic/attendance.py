@@ -1,6 +1,6 @@
 import face_recognition
 import os
-import cv2
+
 import sqlite3
 
 KNOWN_FACES_DIR = 'data/employees'
@@ -13,6 +13,7 @@ MODEL = 'hog'  # default: 'hog', other one can be 'cnn' - CUDA accelerated (if a
 
 # Returns (R, G, B) from name
 def name_to_color(name):
+    import cv2
     # Take 3 first letters, tolower()
     # lowercased character ord() value rage is 97 to 122, substract 97, multiply by 8
     color = [(ord(c.lower()) - 97) * 8 for c in name[:3]]
@@ -20,6 +21,7 @@ def name_to_color(name):
 
 
 def saveImage():
+    import cv2
     face_cascade = cv2.CascadeClassifier('data/image_models/haarcascade_frontalface_default.xml')
 
     video = cv2.VideoCapture(0)
@@ -46,7 +48,37 @@ def saveImage():
     cv2.destroyAllWindows()
 
 
+def takeImage():
+    print('here')
+    import cv2
+    face_cascade = cv2.CascadeClassifier('data/image_models/haarcascade_frontalface_default.xml')
+
+    video = cv2.VideoCapture(0)
+    i = 1
+    while True:
+        check, frame = video.read()
+        faces = face_cascade.detectMultiScale(frame, scaleFactor=1.1, minNeighbors=9)
+        key = cv2.waitKey(1)
+        frameR = None
+
+        for x, y, w, h in faces:
+            cv2.imwrite('data/temp/image.jpg', frame)
+            frameR = cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 125, 150), 2)
+
+            video.release()
+            cv2.destroyAllWindows()
+            return matchImage()
+
+        if key == ord('q'):
+            break
+        cv2.imshow('Look into the camera',frame)
+    video.release()
+    cv2.destroyAllWindows()
+    return False
+
+
 def matchImage():
+    import cv2
     print('Loading known faces...')
     known_faces = []
     known_names = []
@@ -104,6 +136,7 @@ def matchImage():
                 return match
     return False
 
+
 def saveTime():
     con = sqlite3.connect('payroll.db')
 
@@ -116,6 +149,3 @@ def saveTime():
     print(cur.fetchall())
     con.close()
 
-
-saveImage()
-matchImage()

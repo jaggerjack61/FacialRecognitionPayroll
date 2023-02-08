@@ -38,9 +38,10 @@ cur.execute("""CREATE TABLE assigned_shifts (
 cur.execute("""CREATE TABLE logged_times ( 
                     employee_number integer,
                     shift_name text,
-                    start text,
-                    end text,
-                    date text
+                    start_date text,
+                    start_time text,
+                    end_date text,
+                    end_time text
                     )""")
 
 cur.execute("""CREATE TABLE users ( 
