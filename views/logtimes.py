@@ -11,6 +11,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from logic import attendance as at
 from logic import Employee as emp
+from datetime import datetime, date
 
 
 class Ui_MainWindow(object):
@@ -31,6 +32,7 @@ class Ui_MainWindow(object):
         self.clockOutButton = QtWidgets.QPushButton(self.centralwidget)
         self.clockOutButton.setObjectName("clockOutButton")
         self.gridLayout.addWidget(self.clockOutButton, 1, 1, 1, 1)
+        self.clockOutButton.clicked.connect(self.clockOut)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 22))
@@ -46,17 +48,22 @@ class Ui_MainWindow(object):
     def clockIn(self):
         result = at.takeImage()
         if result:
-            self.listWidget.addItem(result)
+            employee = emp.Employee()
+            employee.clockIn(result)
+            employee.getLoggedTimes()
+            self.listWidget.addItem(str(employee.getEmployee(result)[1:3])+' clocked in at '+str(datetime.today()))
         else:
             self.listWidget.addItem('Could not recognise face.')
 
     def clockOut(self):
         result = at.takeImage()
         if result:
-            self.listWidget.addItem(result)
+            employee = emp.Employee()
+            employee.clockOut(result)
+            employee.getLoggedTimes()
+            self.listWidget.addItem(str(employee.getEmployee(result)[1:3])+' clocked out at '+str(datetime.today()))
         else:
             self.listWidget.addItem('Could not recognise face.')
-
 
 
     def retranslateUi(self, MainWindow):

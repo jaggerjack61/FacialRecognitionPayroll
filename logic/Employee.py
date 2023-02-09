@@ -1,6 +1,6 @@
 import sqlite3
 import os
-from datetime import date, time
+from datetime import date, datetime
 
 
 class Employee:
@@ -50,6 +50,20 @@ class Employee:
         employees = self.cur.fetchall()
         print(employees)
         return employees
+    def getEmployee(self,employeeNumber):
+        self.cur.execute(
+            "SELECT * FROM employees WHERE employee_number ='"+str(employeeNumber)+"'")
+        employee = self.cur.fetchone()
+        print(employee)
+        return employee
+
+    def getEmployeeShift(self,employeeNumber):
+        self.cur.execute(
+            "SELECT * FROM assigned_shifts WHERE employee_number='"+employeeNumber+"'")
+        assignedShift = self.cur.fetchone()
+        print(assignedShift)
+        return assignedShift
+
 
     def addShift(self, shift):
         self.cur.execute("""INSERT INTO shifts ( 
@@ -92,8 +106,62 @@ class Employee:
         self.con.commit()
         print(self.getAssignedShifts())
 
+    def getLoggedTimes(self):
+        self.cur.execute(
+            "SELECT * FROM logged_times")
+        loggedTimes = self.cur.fetchall()
+        print(loggedTimes)
+        return loggedTimes
     def clockIn(self,employeeNumber):
-        print('hello')
+        shift = self.getEmployeeShift(employeeNumber)
+        if shift:
+            self.cur.execute(
+                "SELECT * FROM logged_times WHERE end_time = 'still-in' AND employee_number="+employeeNumber)
+            loggedTimes = self.cur.fetchall()
+            print(loggedTimes)
+            if loggedTimes:
+                print('here my brew')
+                self.cur.execute("UPDATE logged_times SET end_date = 'DID NOT CLOCKOUT', end_time = 'DID NOT CLOCKOUT' WHERE employee_number = "+employeeNumber+" AND end_date='still-in'")
+                self.con.commit()
+            else:
+                print('not here brew')
+
+
+            self.cur.execute("""INSERT INTO logged_times ( 
+                                                            'employee_number',
+                                                            'shift_name',
+                                                            'start_date',
+                                                            'start_time',
+                                                            'end_date',
+                                                            'end_time') VALUES(
+                                                            '""" + str(employeeNumber) + """',
+                                                            '""" + str(shift[1]) + """',
+                                                            '""" + str(date.today()) + """',
+                                                            '""" + str(datetime.now().strftime("%H:%M:%S")) + """',
+                                                            '""" + str('still-in') + """',
+                                                            '""" + str('still-in') + """'
+                                             
+                                                            )
+                                                            """)
+            self.con.commit()
+            return True
+        else:
+            return False
 
     def clockOut(self,employeeNumber):
-        print('hello')
+        shift = self.getEmployeeShift(employeeNumber)
+        if shift:
+            self.cur.execute(
+                "SELECT * FROM logged_times ")
+            loggedTimes = self.cur.fetchall()
+            print(loggedTimes)
+            if loggedTimes:
+                print('here my brew')
+                self.cur.execute("UPDATE logged_times SET end_date = '" + str(date.today()) + "', end_time = '" + str(datetime.now().strftime("%H:%M:%S")) + "' WHERE employee_number = '" + employeeNumber + "' AND end_time = 'still-in' AND end_time='still-in'")
+                self.con.commit()
+                self.cur.execute(
+                    "SELECT * FROM logged_times ")
+                loggedTimes = self.cur.fetchall()
+                print(loggedTimes)
+            else:
+                print('not here brew')

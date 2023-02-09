@@ -176,7 +176,7 @@ class Ui_MainWindow(object):
         self.tab_5.setObjectName("tab_5")
         self.gridLayout_5 = QtWidgets.QGridLayout(self.tab_5)
         self.gridLayout_5.setObjectName("gridLayout_5")
-        self.timeLogView = QtWidgets.QListView(self.tab_5)
+        self.timeLogView = QtWidgets.QListWidget(self.tab_5)
         self.timeLogView.setObjectName("timeLogView")
         self.gridLayout_5.addWidget(self.timeLogView, 0, 0, 1, 1)
         self.tabWidget.addTab(self.tab_5, "")
@@ -234,6 +234,7 @@ class Ui_MainWindow(object):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
         self.getEmployees()
         self.getShifts()
+        self.getTimeLogs()
         print(self.assignedShifts)
 
     def retranslateUi(self, MainWindow):
@@ -330,6 +331,11 @@ class Ui_MainWindow(object):
         print(shiftData)
         self.emp.addShift(shiftData)
         self.getShifts()
+
+    def getTimeLogs(self):
+        logs = self.emp.getLoggedTimes()
+        for log in logs:
+            self.timeLogView.addItem('Name: '+str(self.emp.getEmployee(log[0])[1:3])+' shift start: '+str(log[2:4])+' shift end: '+str(log[4:6]))
 
 
 if __name__ == "__main__":
