@@ -10,7 +10,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 import logic.Authentication as auth
-import views.new as home
+import views.main as home
 from views import logtimes as lt
 
 

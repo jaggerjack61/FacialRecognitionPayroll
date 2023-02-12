@@ -35,6 +35,12 @@ class Ui_MainWindow(object):
         self.gridLayout.setObjectName("gridLayout")
         self.employeeView = QtWidgets.QListWidget(self.tab)
         self.employeeView.setObjectName("employeeView")
+        self.employeeView.setStyleSheet(
+            "QListWidget { border: 1px solid black; }"
+            "QListWidget::item { padding: 5px; }"
+            "QListWidget::item:selected { background-color: #ddd; }"
+            "QListWidget::item:hover { background-color: #eee; }"
+        )
         self.gridLayout.addWidget(self.employeeView, 0, 0, 1, 3)
         self.label_13 = QtWidgets.QLabel(self.tab)
         font = QtGui.QFont()
