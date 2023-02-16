@@ -1,0 +1,1 @@
+self.cur.execute("INSERT INTO logged_times ( 'employee_number','shift_name','start_date','start_time','end_date','end_time') VALUES('" + str(employeeNumber) + "','" + str(shift[1]) + "',datetime('" + str(date.today()) + "'),'" + str(datetime.now().strftime("%H:%M:%S")) + "','" + str('still-in') + "','" + str('still-in') + "')")

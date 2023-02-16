@@ -235,6 +235,7 @@ class Ui_MainWindow(object):
         self.gridLayout_7.addWidget(self.StartPayroll, 1, 1, 1, 1)
         self.RunPayrollButton = QtWidgets.QPushButton(self.tab_7)
         self.RunPayrollButton.setObjectName("RunPayrollButton")
+        self.RunPayrollButton.clicked.connect(self.runPayroll)
         self.gridLayout_7.addWidget(self.RunPayrollButton, 2, 1, 1, 2)
         self.label_17 = QtWidgets.QLabel(self.tab_7)
         self.label_17.setObjectName("label_17")
@@ -348,9 +349,9 @@ class Ui_MainWindow(object):
     def getEmployees(self):
         i = 0
         for emp in self.employees:
-            self.employeeView.insertItem(i, 'Name:' + emp[1] + ' ' + emp[2] + ', DOB:' + emp[3] + ', ID No:' + emp[
-                4] + ', Employee No:' + str(emp[0]) +
-                                         ',Currency:' + emp[7] + ', Basic:' + str(emp[5]) + ', Overtime:' + str(emp[6]))
+            self.employeeView.insertItem(i, 'Name:' + emp[2] + ' ' + emp[3] + ', DOB:' + emp[4] + ', ID No:' + emp[
+                5] + ', Employee No:' + str(emp[1]) +
+                                         ',Currency:' + emp[8] + ', Basic:' + str(emp[6]) + ', Overtime:' + str(emp[7]))
             i = i + 1
 
     def assignShift(self):
@@ -384,6 +385,11 @@ class Ui_MainWindow(object):
         logs = self.emp.getLoggedTimes()
         for log in logs:
             self.timeLogView.addItem('Name: '+str(self.emp.getEmployee(log[0])[1:3])+' shift start: '+str(log[2:4])+' shift end: '+str(log[4:6]))
+
+    def runPayroll(self):
+        start = self.StartPayroll.text()
+        end = self.EndPayroll.text()
+        self.emp.runPayroll(start, end)
 
 
 

@@ -108,7 +108,7 @@ class Employee:
 
     def getLoggedTimes(self):
         self.cur.execute(
-            "SELECT * FROM logged_times")
+            "SELECT employee_number, shift_name, start_date, start_time, end_date,end_time FROM logged_times")
         loggedTimes = self.cur.fetchall()
         print(loggedTimes)
         return loggedTimes
@@ -157,7 +157,7 @@ class Employee:
             print(loggedTimes)
             if loggedTimes:
                 print('here my brew')
-                self.cur.execute("UPDATE logged_times SET end_date = '" + str(date.today()) + "', end_time = '" + str(datetime.now().strftime("%H:%M:%S")) + "' WHERE employee_number = '" + employeeNumber + "' AND end_time = 'still-in' AND end_time='still-in'")
+                self.cur.execute("UPDATE logged_times SET end_date ='" + str(date.today()) + "', end_time = '" + str(datetime.now().strftime("%H:%M:%S")) + "' WHERE employee_number = '" + employeeNumber + "' AND end_time = 'still-in' AND end_time='still-in'")
                 self.con.commit()
                 self.cur.execute(
                     "SELECT * FROM logged_times ")
@@ -165,3 +165,23 @@ class Employee:
                 print(loggedTimes)
             else:
                 print('not here brew')
+
+    def runPayroll(self, startDate, endDate):
+        start = datetime.strptime(startDate, '%d/%m/%Y')
+        end = datetime.strptime(endDate, '%d/%m/%Y')
+        self.cur.execute("SELECT * FROM logged_times WHERE end_date != 'still-in' AND end_date != 'DID NOT CLOCKOUT'")
+        loggedTimes = self.cur.fetchall()
+        filtered = []
+        for log in loggedTimes:
+            startLog = datetime.strptime(log[2], '%Y-%m-%d')
+
+            if startLog >= start:
+                endLog = datetime.strptime(log[4], '%Y-%m-%d')
+
+                if endLog <= end:
+                    filtered.append(log)
+            
+        print(filtered)
+
+
+

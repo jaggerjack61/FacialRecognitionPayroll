@@ -48,6 +48,7 @@ class Ui_MainWindow(object):
     def clockIn(self):
         result = at.takeImage()
         if result:
+            print(result)
             employee = emp.Employee()
             employee.clockIn(result)
             employee.getLoggedTimes()
