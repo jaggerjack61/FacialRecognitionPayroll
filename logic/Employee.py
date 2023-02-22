@@ -1,6 +1,7 @@
 import sqlite3
 import os
 from datetime import date, datetime
+from logic import Payroll as pr
 
 
 class Employee:
@@ -8,6 +9,7 @@ class Employee:
     def __init__(self):
         self.con = sqlite3.connect('payroll.db')
         self.cur = self.con.cursor()
+        self.pr = pr.Payroll()
 
     def add(self, employee):
         self.cur.execute(
@@ -50,20 +52,20 @@ class Employee:
         employees = self.cur.fetchall()
         print(employees)
         return employees
-    def getEmployee(self,employeeNumber):
+
+    def getEmployee(self, employeeNumber):
         self.cur.execute(
-            "SELECT * FROM employees WHERE employee_number ='"+str(employeeNumber)+"'")
+            "SELECT * FROM employees WHERE employee_number ='" + str(employeeNumber) + "'")
         employee = self.cur.fetchone()
         print(employee)
         return employee
 
-    def getEmployeeShift(self,employeeNumber):
+    def getEmployeeShift(self, employeeNumber):
         self.cur.execute(
-            "SELECT * FROM assigned_shifts WHERE employee_number='"+employeeNumber+"'")
+            "SELECT * FROM assigned_shifts WHERE employee_number='" + employeeNumber + "'")
         assignedShift = self.cur.fetchone()
         print(assignedShift)
         return assignedShift
-
 
     def addShift(self, shift):
         self.cur.execute("""INSERT INTO shifts ( 
@@ -86,6 +88,13 @@ class Employee:
         shifts = self.cur.fetchall()
         print(shifts)
         return shifts
+
+    def getShift(self, name):
+        self.cur.execute(
+            "SELECT * FROM shifts WHERE name = '" + name + "'")
+        shift = self.cur.fetchone()
+        print(shift)
+        return shift
 
     def getAssignedShifts(self):
         self.cur.execute(
@@ -112,20 +121,21 @@ class Employee:
         loggedTimes = self.cur.fetchall()
         print(loggedTimes)
         return loggedTimes
-    def clockIn(self,employeeNumber):
+
+    def clockIn(self, employeeNumber):
         shift = self.getEmployeeShift(employeeNumber)
         if shift:
             self.cur.execute(
-                "SELECT * FROM logged_times WHERE end_time = 'still-in' AND employee_number="+employeeNumber)
+                "SELECT * FROM logged_times WHERE end_time = 'still-in' AND employee_number=" + employeeNumber)
             loggedTimes = self.cur.fetchall()
             print(loggedTimes)
             if loggedTimes:
                 print('here my brew')
-                self.cur.execute("UPDATE logged_times SET end_date = 'DID NOT CLOCKOUT', end_time = 'DID NOT CLOCKOUT' WHERE employee_number = "+employeeNumber+" AND end_date='still-in'")
+                self.cur.execute(
+                    "UPDATE logged_times SET end_date = 'DID NOT CLOCKOUT', end_time = 'DID NOT CLOCKOUT' WHERE employee_number = " + employeeNumber + " AND end_date='still-in'")
                 self.con.commit()
             else:
                 print('not here brew')
-
 
             self.cur.execute("""INSERT INTO logged_times ( 
                                                             'employee_number',
@@ -148,7 +158,7 @@ class Employee:
         else:
             return False
 
-    def clockOut(self,employeeNumber):
+    def clockOut(self, employeeNumber):
         shift = self.getEmployeeShift(employeeNumber)
         if shift:
             self.cur.execute(
@@ -157,7 +167,9 @@ class Employee:
             print(loggedTimes)
             if loggedTimes:
                 print('here my brew')
-                self.cur.execute("UPDATE logged_times SET end_date ='" + str(date.today()) + "', end_time = '" + str(datetime.now().strftime("%H:%M:%S")) + "' WHERE employee_number = '" + employeeNumber + "' AND end_time = 'still-in' AND end_time='still-in'")
+                self.cur.execute("UPDATE logged_times SET end_date ='" + str(date.today()) + "', end_time = '" + str(
+                    datetime.now().strftime(
+                        "%H:%M:%S")) + "' WHERE employee_number = '" + employeeNumber + "' AND end_time = 'still-in' AND end_time='still-in'")
                 self.con.commit()
                 self.cur.execute(
                     "SELECT * FROM logged_times ")
@@ -167,21 +179,5 @@ class Employee:
                 print('not here brew')
 
     def runPayroll(self, startDate, endDate):
-        start = datetime.strptime(startDate, '%d/%m/%Y')
-        end = datetime.strptime(endDate, '%d/%m/%Y')
-        self.cur.execute("SELECT * FROM logged_times WHERE end_date != 'still-in' AND end_date != 'DID NOT CLOCKOUT'")
-        loggedTimes = self.cur.fetchall()
-        filtered = []
-        for log in loggedTimes:
-            startLog = datetime.strptime(log[2], '%Y-%m-%d')
-
-            if startLog >= start:
-                endLog = datetime.strptime(log[4], '%Y-%m-%d')
-
-                if endLog <= end:
-                    filtered.append(log)
-            
-        print(filtered)
-
-
+        return self.pr.getPayrolls(startDate, endDate)
 

@@ -389,7 +389,12 @@ class Ui_MainWindow(object):
     def runPayroll(self):
         start = self.StartPayroll.text()
         end = self.EndPayroll.text()
-        self.emp.runPayroll(start, end)
+        payrolls = self.emp.runPayroll(start, end)
+        for x in payrolls:
+            self.listWidget.addItem(str(x))
+
+    def resetPayroll(self):
+        self.listWidget.clear()
 
 
 
