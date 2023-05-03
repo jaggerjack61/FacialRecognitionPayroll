@@ -23,7 +23,7 @@ class Employee:
                                 'firstname',
                                 'lastname',
                                 'dob' ,
-                                'id_number',
+                                'email',
                                 'hourly_regular',
                                 'hourly_over_time',
                                 'currency') VALUES(
@@ -123,12 +123,14 @@ class Employee:
         return loggedTimes
 
     def clockIn(self, employeeNumber):
+        print("mew")
         shift = self.getEmployeeShift(employeeNumber)
+        print(shift)
         if shift:
             self.cur.execute(
                 "SELECT * FROM logged_times WHERE end_time = 'still-in' AND employee_number=" + employeeNumber)
             loggedTimes = self.cur.fetchall()
-            print(loggedTimes)
+            print(loggedTimes or "nada")
             if loggedTimes:
                 print('here my brew')
                 self.cur.execute(
@@ -181,3 +183,26 @@ class Employee:
     def runPayroll(self, startDate, endDate):
         return self.pr.getPayrolls(startDate, endDate)
 
+    def sendNotice(self, emps):
+        import smtplib
+        from email.message import EmailMessage
+        for emp in emps:
+            if emp['late'] > 0 or emp['left_early'] > 0:
+                msg = EmailMessage()
+                msg.set_content("Hello " + emp['firstname'] + " " + emp[
+                    'lastname'] + " this email is a formal notice and reprimand for your insufficient punctuality.")
+
+                # Set subject, sender and receiver
+                msg["Subject"] = "Formal Warning"
+                msg["From"] = "h170177w@hit.ac.zw"
+                msg["To"] = emp['email']
+
+                # Log in to Gmail server and send email
+                server = smtplib.SMTP("smtp.gmail.com", 587)
+                server.starttls()
+                server.login("h170177w@hit.ac.zw", "Mamoyosp1")
+                server.send_message(msg)
+                server.quit()
+                print("sent")
+
+        print("all sent")

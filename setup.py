@@ -20,7 +20,7 @@ else:
                         firstname text,
                         lastname text,
                         dob text,
-                        id_number text,
+                        email text,
                         hourly_regular real,
                         hourly_over_time real,
                         currency text

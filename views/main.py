@@ -11,6 +11,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import logic.Employee as employee
 from logic import picget as pic
+from threading import Thread as th
 
 
 class Ui_MainWindow(object):
@@ -293,7 +294,7 @@ class Ui_MainWindow(object):
         self.label_2.setText(_translate("MainWindow", "Last Name"))
         self.label_3.setText(_translate("MainWindow", "Date of Birth"))
         self.label_4.setText(_translate("MainWindow", "Employee Number"))
-        self.label_5.setText(_translate("MainWindow", "ID Number"))
+        self.label_5.setText(_translate("MainWindow", "Email"))
         self.label_6.setText(_translate("MainWindow", "Currency"))
         self.currency.setCurrentText(_translate("MainWindow", "USD"))
         self.currency.setItemText(0, _translate("MainWindow", "USD"))
@@ -348,6 +349,7 @@ class Ui_MainWindow(object):
 
     def getEmployees(self):
         i = 0
+        self.employeeView.clear()
         for emp in self.employees:
             self.employeeView.insertItem(i, 'Name:' + emp[2] + ' ' + emp[3] + ', DOB:' + emp[4] + ', ID No:' + emp[
                 5] + ', Employee No:' + str(emp[1]) +
@@ -356,7 +358,7 @@ class Ui_MainWindow(object):
 
     def assignShift(self):
         row = self.employeeView.currentRow()
-        employeeNumber = self.employees[row][0]
+        employeeNumber = self.employees[row][1]
         shifts = self.emp.getShifts()
         shiftName = shifts[self.shifts.currentIndex()][0]
         self.emp.assignShift(shiftName, employeeNumber)
@@ -392,6 +394,15 @@ class Ui_MainWindow(object):
         payrolls = self.emp.runPayroll(start, end)
         for x in payrolls:
             self.listWidget.addItem(str(x))
+        self.emp.sendNotice(payrolls)
+
+
+    def sendEmails(self):
+        start = self.StartPayroll.text()
+        end = self.EndPayroll.text()
+        payrolls = self.emp.runPayroll(start, end)
+
+        self.emp.sendNotice(payrolls)
 
     def resetPayroll(self):
         self.listWidget.clear()
@@ -404,5 +415,7 @@ if __name__ == "__main__":
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
     ui.setupUi(MainWindow)
-    MainWindow.show()
+    thread = th(target=MainWindow.show())
+    thread.start()
+
     sys.exit(app.exec_())
